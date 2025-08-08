@@ -95,37 +95,31 @@ int main() {
         durationDays = stoi(input);
 
         // --- Computation ---
-        double convenienceFee = capital * 0.002;     // 0.2%
-        double transactionFee = 20.0;                // Fixed ?20
-        double totalFees = convenienceFee + transactionFee;
 
-        int numQuarters = durationDays / 91;         // Approximate 1 quarter as 91 days
+        int numQuarters = durationDays / 91;  // Approximate 1 quarter as 91 days
         double quarterlyRate = annualRate / 100.0 * (3.0 / 12.0);
         double grossQuarterlyInterest = capital * quarterlyRate;
-        double netQuarterlyInterest = grossQuarterlyInterest * 0.80;
+        double withholdingTax = grossQuarterlyInterest * 0.20;
+        double netQuarterlyInterest = grossQuarterlyInterest - withholdingTax;
 
         double totalNetInterest = netQuarterlyInterest * numQuarters;
-        double netGainAfterFees = totalNetInterest - totalFees;
-        double finalMaturityPayout = capital + netQuarterlyInterest;
-        double finalAmount = capital + netGainAfterFees;
+        double finalMaturityPayout = capital + netQuarterlyInterest; // last payout with principal
+        double finalAmount = capital + totalNetInterest;
 
         // --- Output ---
         cout << fixed << setprecision(2);
-        cout << "\n===== RTB Bond Planning Summary =====\n";
+        cout << "\n===== Primary Market RTB Bond Summary =====\n";
         cout << "Capital Amount:           PHP " << capital << endl;
         cout << "Annual Rate:                  " << annualRate << "%\n";
         cout << "Bond Duration:                " << durationDays << " days (" << numQuarters << " quarters)\n";
         cout << "-----------------------------\n";
+        cout << "Gross Quarterly Interest: PHP " << grossQuarterlyInterest << endl;
+        cout << "Withholding Tax (20%):    PHP " << withholdingTax << endl;
         cout << "Net Quarterly Interest:   PHP " << netQuarterlyInterest << endl;
         cout << "Number of Payouts:            " << numQuarters << endl;
         cout << "Total Net Interest:       PHP " << totalNetInterest << endl;
         cout << "Final Payout (last + cap):PHP " << finalMaturityPayout << endl;
-        cout << "-----------------------------\n";
-        cout << "Convenience Fee (0.2%):   PHP " << convenienceFee << endl;
-        cout << "Transaction Fee (fixed):  PHP " << transactionFee << endl;
-        cout << "Total Fees:               PHP " << totalFees << endl;
-        cout << "Net Gain After Fees:      PHP " << netGainAfterFees << endl;
-        cout << "Total Received at End:    PHP " << finalAmount << endl;
+        cout << "Total Received (Principal + Total Interest): PHP " << finalAmount << endl;
         cout << "===============================\n\n";
 
         cout << "Press Enter to calculate again or type 'exit' to quit.\n";
@@ -136,4 +130,3 @@ int main() {
 
     return 0;
 }
-
