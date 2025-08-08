@@ -121,6 +121,7 @@ int main() {
 
         // Calculate initial interest gains
         double yearlyGain = rateDecimal * amount;
+        double yearlyGainFinal = yearlyGain - (yearlyGain * 0.2);
         double monthlyGain = yearlyGain / 12.0;
         double monthyFinalGain = monthlyGain - (monthlyGain * 0.2); 
 
@@ -131,6 +132,7 @@ int main() {
 		cout << left << setw(35) << "Bank Interest Rate:" << right << setw(13) << interestRate << "%\n";
 		cout << left << setw(35) << "Initial Deposit Amount:" << "PHP " << right << setw(10) << amount << "\n";
 		cout << left << setw(35) << "Yearly Interest Gain:" << "PHP " << right << setw(10) << yearlyGain << "\n";
+		cout << left << setw(35) << "Yearly Interest Gain After Tax:" << "PHP " << right << setw(10) << yearlyGainFinal << "\n";
 		cout << left << setw(35) << "Monthly Interest Gain:" << "PHP " << right << setw(10) << monthlyGain << "\n";
 		cout << left << setw(35) << "Monthly Interest Gain After Tax:" << "PHP " << right << setw(10) << monthyFinalGain << "\n";
 		cout << "-----------------------------------------------------------\n";
@@ -158,4 +160,3 @@ int main() {
     cout << "Exiting program. Goodbye!\n";
     return 0;
 }
-
