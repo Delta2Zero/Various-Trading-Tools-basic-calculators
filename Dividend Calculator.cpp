@@ -57,13 +57,17 @@ int main()
         }
 
         double totalIncome = dividendLast * shares;
-        double monthlyIncome = totalIncome / 12.0;
+        double tenPercenttax = totalIncome * 0.1;
+        double taxedIncome = totalIncome - tenPercenttax;
+        double monthlyIncome = taxedIncome / 12.0;
+        
 
         std::cout << std::fixed << std::setprecision(2);
         std::cout << "\n========== Dividend Summary ==========\n";
         std::cout << "Dividend: PHP " << dividendLast << "\n";
         std::cout << "Shares: " << shares << "\n";
-        std::cout << "Dividend Paid Total: PHP " << totalIncome << "\n";
+        std::cout << "Dividend Paid Total (Pre-Tax): PHP " << totalIncome << "\n";
+        std::cout << "Dividend Paid Total (10% Tax): PHP " << taxedIncome << "\n";
         std::cout << "Dividend Paid Per Month: PHP " << monthlyIncome << "\n";
         std::cout << "======================================\n";
     }
@@ -71,4 +75,3 @@ int main()
     std::cout << "\nExited program. Goodbye!\n";
     return 0;
 }
-
