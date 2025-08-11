@@ -50,7 +50,7 @@ int main() {
         }
 
         // Prompt for remaining amount
-        std::cout << "Amount Left: ";
+        std::cout << "Amount Left/Gain: ";
         std::getline(std::cin, leftInput);
         if (leftInput == "exit") break;
 
@@ -62,7 +62,8 @@ int main() {
 
         // Calculation
         double difference = totalAmount - amountLeft;
-        double percentageDifference = (difference / totalAmount) * 100.0;
+        double percentageDifference1 = (difference / totalAmount) * 100.0;
+        double percentageDifference2 = (amountLeft / difference) * 100.0;
 
         // Output
         std::cout << "\n*******************************\n";
@@ -73,7 +74,8 @@ int main() {
         std::cout << "Total amount: " << totalAmount << "\n";
         std::cout << "Amount left: " << amountLeft << "\n";
         std::cout << "Difference: " << difference << "\n";
-        std::cout << "Percentage difference: " << percentageDifference << "%\n\n";
+        std::cout << "Percentage in Loss (Total Amount / Difference): " << percentageDifference1 << "%\n\n";
+        std::cout << "Percentage in Gain(Amount Left / Difference): " << percentageDifference2 << "%\n\n";
 
         std::cout << "*******************************\n";
         std::cout << "*******************************\n";
@@ -82,4 +84,3 @@ int main() {
     std::cout << "\nProgram exited.\n";
     return 0;
 }
-
