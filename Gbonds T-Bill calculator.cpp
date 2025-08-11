@@ -10,16 +10,14 @@ void resizeConsoleWindow() {
 #ifdef _WIN32
     HWND console = GetConsoleWindow();
     if (console != NULL) {
-        // MoveWindow(hwnd, x, y, width_px, height_px, repaint)
-        MoveWindow(console, 100, 100, 680, 500, TRUE); // Width and height in pixels
+        MoveWindow(console, 100, 100, 680, 500, TRUE);
     }
 
-    // Set the screen buffer size so lines don't wrap or scroll unnecessarily
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     if (hOut != INVALID_HANDLE_VALUE) {
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         GetConsoleScreenBufferInfo(hOut, &csbi);
-        COORD newSize = {120, 500}; // Width in characters, height in lines
+        COORD newSize = {120, 500};
         SetConsoleScreenBufferSize(hOut, newSize);
     }
 #endif
@@ -27,46 +25,55 @@ void resizeConsoleWindow() {
 
 using namespace std;
 
-// Constants
-const double CONVENIENCE_FEE_RATE_TBILL = 0.005;  // 0.50% p.a.
-const double TRANSACTION_FEE_RATE = 0.0025;       // 0.25%
-const double TRANSACTION_FEE_CAP = 5.0;           // PHP 5 max
-const double TAX_RATE = 0.20;                     // 20%
+const double CONVENIENCE_FEE_RATE_TBILL = 0.005;  
+const double TRANSACTION_FEE_RATE = 0.0025;       
+const double TRANSACTION_FEE_CAP = 5.0;           
+const double TAX_RATE = 0.20;                     
 
-// Function to compute gross interest
 double computeGrossInterest(double capital, double rate, int maturityDays) {
     return capital * (rate / 100.0) * (maturityDays / 365.0);
 }
 
-// Function to compute fees
 void computeFees(double capital, int maturityDays, double& convenienceFee, double& transactionFee) {
-    // T-Bill uses time-based convenience fee
     convenienceFee = capital * CONVENIENCE_FEE_RATE_TBILL * (maturityDays / 365.0);
-
-    // Transaction fee has a cap
     transactionFee = capital * TRANSACTION_FEE_RATE * (maturityDays / 365.0);
     if (transactionFee > TRANSACTION_FEE_CAP)
         transactionFee = TRANSACTION_FEE_CAP;
 }
 
-// Main calculation logic
 void calculateTBills() {
     double capital, rate;
     int maturityDays;
 
     cout << "==== T-Bill Calculator ====" << endl;
 
-    // Input
+    // Input validation for capital
     cout << "Capital Amount (PHP): ";
-    cin >> capital;
+    if (!(cin >> capital)) {
+        cout << "Invalid input. Please enter a numeric value for capital: ";
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return;
+    }
 
+    // Input validation for rate
     cout << "Interest (% per annum): ";
-    cin >> rate;
+    if (!(cin >> rate)) {
+        cout << "Invalid input. Please enter a numeric value for interest rate: ";
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return;
+    }
 
+    // Input validation for maturity days
     cout << "Maturity Days: ";
-    cin >> maturityDays;
+    if (!(cin >> maturityDays)) {
+        cout << "Invalid input. Please enter a numeric value for maturity days: ";
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return;
+    }
 
-    // Calculation
     double grossInterest = computeGrossInterest(capital, rate, maturityDays);
 
     double convenienceFee = 0.0, transactionFee = 0.0;
@@ -78,7 +85,6 @@ void calculateTBills() {
     double netGain = grossInterest - tax - totalFees;
     double total = capital + netGain;
 
-    // Output
     cout << fixed << setprecision(2);
     cout << "===================  Results  =========================" << endl;
     cout << "Capital Amount: PHP " << capital << endl;
@@ -97,7 +103,7 @@ void calculateTBills() {
 }
 
 int main() {
-    resizeConsoleWindow(); // set up console size
+    resizeConsoleWindow(); 
     while (true) {
         calculateTBills();
 
